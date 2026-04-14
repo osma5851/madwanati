@@ -22,12 +22,12 @@ export async function generateMetadata({ params }: Props) {
   };
 }
 
-const CATEGORY_COLORS: Record<string, string> = {
-  تقنية: "bg-blue-100 text-blue-700",
-  "تطوير ذاتي": "bg-purple-100 text-purple-700",
-  ثقافة: "bg-amber-100 text-amber-700",
-  عام: "bg-gray-100 text-gray-700",
-  صحة: "bg-green-100 text-green-700",
+const CATEGORY_COLORS: Record<string, { bg: string; text: string }> = {
+  تقنية:         { bg: "rgba(59,130,246,0.15)",  text: "#93c5fd" },
+  "تطوير ذاتي": { bg: "rgba(167,139,250,0.15)", text: "#c4b5fd" },
+  ثقافة:         { bg: "rgba(245,158,11,0.15)",  text: "#fcd34d" },
+  عام:           { bg: "rgba(100,116,139,0.15)", text: "#94a3b8" },
+  صحة:           { bg: "rgba(34,197,94,0.15)",   text: "#86efac" },
 };
 
 export default async function ArticlePage({ params }: Props) {
@@ -43,69 +43,81 @@ export default async function ArticlePage({ params }: Props) {
     .filter((a) => a.id !== article.id && a.category === article.category)
     .slice(0, 3);
 
-  const catColor = CATEGORY_COLORS[article.category] || "bg-teal-100 text-teal-700";
+  const cat = CATEGORY_COLORS[article.category] || { bg: "rgba(245,158,11,0.15)", text: "#fcd34d" };
   const readTime = getReadingTime(article.content);
 
   return (
     <>
       <Navbar />
-      <main className="flex-1 bg-gray-50">
+      <main className="flex-1" style={{ background: '#0f172a' }}>
         {/* Article Hero */}
-        <div className="bg-white border-b border-gray-100">
+        <div style={{ background: 'linear-gradient(180deg, #0d1a2d 0%, #0f172a 100%)', borderBottom: '1px solid rgba(30,58,95,0.5)' }}>
           <div className="max-w-4xl mx-auto px-4 py-12">
             {/* Breadcrumb */}
-            <nav className="flex items-center gap-2 text-sm text-gray-500 mb-6">
-              <Link href="/" className="hover:text-teal-600 transition-colors">الرئيسية</Link>
+            <nav className="flex items-center gap-2 text-sm mb-6" style={{ color: '#475569' }}>
+              <Link href="/" className="transition-colors duration-200 hover:text-amber-400">الرئيسية</Link>
               <svg className="w-4 h-4 rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>
-              <Link href={`/?category=${article.category}`} className="hover:text-teal-600 transition-colors">
+              <Link href={`/?category=${article.category}`} className="transition-colors duration-200 hover:text-amber-400">
                 {article.category}
               </Link>
               <svg className="w-4 h-4 rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>
-              <span className="text-gray-700 truncate max-w-xs">{article.title}</span>
+              <span className="truncate max-w-xs" style={{ color: '#94a3b8' }}>{article.title}</span>
             </nav>
 
-            {/* Category + Featured */}
+            {/* Category + Featured badges */}
             <div className="flex items-center gap-2 mb-4">
-              <span className={`text-sm px-3 py-1 rounded-full font-medium ${catColor}`}>
+              <span
+                className="text-sm px-3 py-1 rounded-full font-semibold"
+                style={{ background: cat.bg, color: cat.text }}
+              >
                 {article.category}
               </span>
               {article.featured && (
-                <span className="bg-amber-100 text-amber-700 text-sm px-3 py-1 rounded-full font-medium">
-                  مميزة
+                <span
+                  className="text-sm px-3 py-1 rounded-full font-semibold"
+                  style={{ background: 'rgba(245,158,11,0.15)', color: '#f59e0b', border: '1px solid rgba(245,158,11,0.3)' }}
+                >
+                  ★ مميزة
                 </span>
               )}
             </div>
 
             {/* Title */}
-            <h1 className="text-3xl md:text-4xl font-black text-gray-900 leading-tight mb-4">
+            <h1 className="text-3xl md:text-4xl font-black leading-tight mb-4" style={{ color: '#f1f5f9' }}>
               {article.title}
             </h1>
 
             {/* Excerpt */}
-            <p className="text-lg text-gray-600 leading-relaxed mb-6">{article.excerpt}</p>
+            <p className="text-lg leading-relaxed mb-6" style={{ color: '#64748b' }}>{article.excerpt}</p>
 
             {/* Meta */}
-            <div className="flex flex-wrap items-center gap-4 text-sm text-gray-500 pb-6 border-b border-gray-100">
-              <div className="flex items-center gap-1.5">
-                <div className="w-8 h-8 bg-teal-100 rounded-full flex items-center justify-center">
-                  <span className="text-teal-600 font-bold text-xs">
+            <div
+              className="flex flex-wrap items-center gap-4 text-sm pb-6"
+              style={{ borderBottom: '1px solid rgba(30,58,95,0.5)', color: '#64748b' }}
+            >
+              <div className="flex items-center gap-2">
+                <div
+                  className="w-8 h-8 rounded-full flex items-center justify-center"
+                  style={{ background: 'rgba(245,158,11,0.15)', border: '1px solid rgba(245,158,11,0.25)' }}
+                >
+                  <span className="font-bold text-xs" style={{ color: '#f59e0b' }}>
                     {article.author.charAt(0)}
                   </span>
                 </div>
                 <span>{article.author}</span>
               </div>
-              <span>•</span>
+              <span style={{ color: '#1e3a5f' }}>•</span>
               <div className="flex items-center gap-1">
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                 </svg>
                 <span>{formatDate(article.publishedAt)}</span>
               </div>
-              <span>•</span>
+              <span style={{ color: '#1e3a5f' }}>•</span>
               <div className="flex items-center gap-1">
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -116,12 +128,15 @@ export default async function ArticlePage({ params }: Props) {
 
             {/* Tags */}
             {article.tags.length > 0 && (
-              <div className="flex flex-wrap gap-2 mt-4">
+              <div className="flex flex-wrap gap-2 mt-5">
                 {article.tags.map((tag) => (
                   <Link
                     key={tag}
                     href={`/?q=${encodeURIComponent(tag)}`}
-                    className="text-xs bg-gray-100 text-gray-600 px-3 py-1.5 rounded-full hover:bg-teal-50 hover:text-teal-600 transition-colors"
+                    className="text-xs px-3 py-1.5 rounded-full transition-all duration-200 hover:scale-105"
+                    style={{ background: 'rgba(30,58,95,0.5)', color: '#64748b', border: '1px solid rgba(30,58,95,0.6)' }}
+                    onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = 'rgba(245,158,11,0.1)'; (e.currentTarget as HTMLElement).style.color = '#f59e0b'; }}
+                    onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = 'rgba(30,58,95,0.5)'; (e.currentTarget as HTMLElement).style.color = '#64748b'; }}
                   >
                     #{tag}
                   </Link>
@@ -133,17 +148,21 @@ export default async function ArticlePage({ params }: Props) {
 
         {/* Article Content */}
         <div className="max-w-4xl mx-auto px-4 py-10">
-          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 md:p-12">
+          <div
+            className="rounded-2xl p-8 md:p-12"
+            style={{ background: '#1e293b', border: '1px solid rgba(30,58,95,0.7)', boxShadow: '0 4px 30px rgba(0,0,0,0.3)' }}
+          >
             <ArticleContent content={article.content} />
           </div>
 
-          {/* Share/Navigation */}
-          <div className="flex items-center justify-between mt-8">
+          {/* Back link */}
+          <div className="mt-8">
             <Link
               href="/"
-              className="flex items-center gap-2 text-teal-600 hover:text-teal-700 font-medium text-sm group"
+              className="inline-flex items-center gap-2 text-sm font-medium transition-all duration-200 hover:gap-3 group"
+              style={{ color: '#f59e0b' }}
             >
-              <svg className="w-4 h-4 group-hover:-translate-x-1 transition-transform rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-4 h-4 rotate-180 transition-transform duration-200 group-hover:-translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>
               العودة إلى المدونة
@@ -154,11 +173,14 @@ export default async function ArticlePage({ params }: Props) {
         {/* Related Articles */}
         {related.length > 0 && (
           <div className="max-w-6xl mx-auto px-4 pb-16">
-            <div className="border-t border-gray-200 pt-10">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">
-                مقالات ذات صلة في{" "}
-                <span className="text-teal-600">{article.category}</span>
-              </h2>
+            <div className="pt-10" style={{ borderTop: '1px solid rgba(30,58,95,0.5)' }}>
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-1 h-6 rounded-full" style={{ background: 'linear-gradient(180deg, #f59e0b, #d97706)' }} />
+                <h2 className="text-2xl font-bold" style={{ color: '#f1f5f9' }}>
+                  مقالات ذات صلة في{" "}
+                  <span style={{ color: '#f59e0b' }}>{article.category}</span>
+                </h2>
+              </div>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
                 {related.map((rel) => (
                   <ArticleCard key={rel.id} article={rel} />

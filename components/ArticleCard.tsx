@@ -7,42 +7,83 @@ interface ArticleCardProps {
   featured?: boolean;
 }
 
-const CATEGORY_COLORS: Record<string, string> = {
-  تقنية: "bg-blue-100 text-blue-700",
-  "تطوير ذاتي": "bg-purple-100 text-purple-700",
-  ثقافة: "bg-amber-100 text-amber-700",
-  عام: "bg-gray-100 text-gray-700",
-  صحة: "bg-green-100 text-green-700",
-  سفر: "bg-sky-100 text-sky-700",
-  أعمال: "bg-orange-100 text-orange-700",
-  فن: "bg-pink-100 text-pink-700",
+const CATEGORY_COLORS: Record<string, { bg: string; text: string }> = {
+  تقنية:         { bg: "rgba(59,130,246,0.15)",  text: "#93c5fd" },
+  "تطوير ذاتي": { bg: "rgba(167,139,250,0.15)", text: "#c4b5fd" },
+  ثقافة:         { bg: "rgba(245,158,11,0.15)",  text: "#fcd34d" },
+  عام:           { bg: "rgba(100,116,139,0.15)", text: "#94a3b8" },
+  صحة:           { bg: "rgba(34,197,94,0.15)",   text: "#86efac" },
+  سفر:           { bg: "rgba(14,165,233,0.15)",  text: "#7dd3fc" },
+  أعمال:         { bg: "rgba(249,115,22,0.15)",  text: "#fdba74" },
+  فن:            { bg: "rgba(236,72,153,0.15)",  text: "#f9a8d4" },
 };
 
 export default function ArticleCard({ article, featured = false }: ArticleCardProps) {
   const readTime = getReadingTime(article.content);
-  const catColor = CATEGORY_COLORS[article.category] || "bg-teal-100 text-teal-700";
+  const cat = CATEGORY_COLORS[article.category] || { bg: "rgba(245,158,11,0.15)", text: "#fcd34d" };
 
   if (featured) {
     return (
-      <Link href={`/articles/${article.slug}`} className="group block">
-        <div className="bg-gradient-to-br from-teal-600 to-teal-800 rounded-2xl p-8 text-white h-full hover:from-teal-700 hover:to-teal-900 transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-1">
+      <Link href={`/articles/${article.slug}`} className="group block h-full">
+        <div
+          className="rounded-2xl p-7 h-full flex flex-col transition-all duration-300 hover:-translate-y-1 card-accent"
+          style={{
+            background: 'linear-gradient(135deg, #1e3a5f 0%, #162032 100%)',
+            border: '1px solid rgba(245,158,11,0.25)',
+            boxShadow: '0 4px 24px rgba(0,0,0,0.3)',
+          }}
+        >
+          {/* Badges */}
           <div className="flex items-center gap-2 mb-4">
-            <span className="bg-white/20 text-white text-xs px-3 py-1 rounded-full font-medium">
+            <span
+              className="text-xs px-3 py-1 rounded-full font-semibold"
+              style={{ background: cat.bg, color: cat.text }}
+            >
               {article.category}
             </span>
-            <span className="bg-amber-400 text-amber-900 text-xs px-3 py-1 rounded-full font-bold">
-              مميز
+            <span
+              className="text-xs px-3 py-1 rounded-full font-bold"
+              style={{ background: 'rgba(245,158,11,0.2)', color: '#f59e0b', border: '1px solid rgba(245,158,11,0.4)' }}
+            >
+              ★ مميز
             </span>
           </div>
-          <h2 className="text-2xl font-bold mb-3 leading-tight group-hover:text-teal-100 transition-colors line-clamp-2">
-            {article.title}
+
+          {/* Title */}
+          <h2
+            className="text-xl font-bold mb-3 leading-tight line-clamp-2 flex-shrink-0 transition-colors duration-200"
+            style={{ color: '#f1f5f9' }}
+          >
+            <span className="group-hover:text-amber-400 transition-colors duration-200">{article.title}</span>
           </h2>
-          <p className="text-teal-100 text-sm leading-relaxed mb-6 line-clamp-3">
+
+          {/* Excerpt */}
+          <p className="text-sm leading-relaxed line-clamp-3 flex-1 mb-5" style={{ color: '#94a3b8' }}>
             {article.excerpt}
           </p>
-          <div className="flex items-center justify-between text-teal-200 text-xs">
-            <span>{formatDate(article.publishedAt)}</span>
-            <span>{readTime} دقائق قراءة</span>
+
+          {/* Meta */}
+          <div className="flex items-center justify-between text-xs" style={{ color: '#64748b' }}>
+            <span className="flex items-center gap-1">
+              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+              {formatDate(article.publishedAt)}
+            </span>
+            <span className="flex items-center gap-1">
+              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              {readTime} دقائق
+            </span>
+          </div>
+
+          {/* Bottom arrow indicator */}
+          <div className="mt-4 flex items-center gap-1 text-xs font-medium transition-all duration-200 group-hover:gap-2" style={{ color: '#f59e0b' }}>
+            <span>اقرأ المقال</span>
+            <svg className="w-3.5 h-3.5 rotate-180 transition-transform duration-200 group-hover:-translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
+            </svg>
           </div>
         </div>
       </Link>
@@ -50,33 +91,54 @@ export default function ArticleCard({ article, featured = false }: ArticleCardPr
   }
 
   return (
-    <Link href={`/articles/${article.slug}`} className="group block">
-      <article className="bg-white rounded-2xl border border-gray-100 p-6 hover:shadow-md hover:-translate-y-1 transition-all duration-300 h-full flex flex-col">
-        <div className="flex items-center gap-2 mb-3">
-          <span className={`text-xs px-3 py-1 rounded-full font-medium ${catColor}`}>
+    <Link href={`/articles/${article.slug}`} className="group block h-full">
+      <article
+        className="rounded-2xl p-6 h-full flex flex-col transition-all duration-300 hover:-translate-y-1 card-accent gold-glow-hover"
+        style={{
+          background: '#1e293b',
+          border: '1px solid rgba(30,58,95,0.8)',
+          boxShadow: '0 2px 12px rgba(0,0,0,0.25)',
+        }}
+      >
+        {/* Category + Tags */}
+        <div className="flex items-center gap-2 mb-3 flex-wrap">
+          <span
+            className="text-xs px-2.5 py-1 rounded-full font-semibold"
+            style={{ background: cat.bg, color: cat.text }}
+          >
             {article.category}
           </span>
           {article.tags.slice(0, 2).map((tag) => (
-            <span key={tag} className="text-xs text-gray-400 bg-gray-50 px-2 py-1 rounded-full">
+            <span
+              key={tag}
+              className="text-xs px-2 py-0.5 rounded-full"
+              style={{ background: 'rgba(30,58,95,0.6)', color: '#64748b' }}
+            >
               {tag}
             </span>
           ))}
         </div>
-        <h2 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-teal-600 transition-colors leading-tight line-clamp-2">
+
+        {/* Title */}
+        <h2 className="text-base font-bold mb-2 leading-tight line-clamp-2 flex-shrink-0 transition-colors duration-200 group-hover:text-amber-400" style={{ color: '#e2e8f0' }}>
           {article.title}
         </h2>
-        <p className="text-gray-500 text-sm leading-relaxed flex-1 line-clamp-3 mb-4">
+
+        {/* Excerpt */}
+        <p className="text-sm leading-relaxed flex-1 line-clamp-3 mb-4" style={{ color: '#64748b' }}>
           {article.excerpt}
         </p>
-        <div className="flex items-center justify-between text-xs text-gray-400 pt-3 border-t border-gray-50">
+
+        {/* Meta */}
+        <div className="flex items-center justify-between text-xs pt-3" style={{ borderTop: '1px solid rgba(30,58,95,0.8)', color: '#475569' }}>
           <div className="flex items-center gap-1">
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
             </svg>
             <span>{formatDate(article.publishedAt)}</span>
           </div>
           <div className="flex items-center gap-1">
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
             <span>{readTime} دقائق</span>

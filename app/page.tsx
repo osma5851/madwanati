@@ -20,37 +20,92 @@ export default function HomePage() {
       <Navbar />
       <main className="flex-1">
         {/* Hero Section */}
-        <section className="bg-gradient-to-br from-teal-700 via-teal-600 to-emerald-600 text-white py-20 px-4">
-          <div className="max-w-4xl mx-auto text-center">
-            <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full text-sm mb-6">
-              <span className="w-2 h-2 bg-amber-400 rounded-full animate-pulse inline-block"></span>
+        <section
+          className="relative py-24 px-4 overflow-hidden"
+          style={{ background: 'linear-gradient(135deg, #0d1a2d 0%, #0f172a 50%, #1a1f35 100%)' }}
+        >
+          {/* Decorative background elements */}
+          <div
+            className="absolute top-0 left-0 w-full h-full pointer-events-none"
+            aria-hidden="true"
+          >
+            <div
+              className="absolute top-10 right-10 w-72 h-72 rounded-full opacity-5"
+              style={{ background: 'radial-gradient(circle, #f59e0b, transparent)', filter: 'blur(60px)' }}
+            />
+            <div
+              className="absolute bottom-10 left-10 w-96 h-96 rounded-full opacity-5"
+              style={{ background: 'radial-gradient(circle, #3b82f6, transparent)', filter: 'blur(80px)' }}
+            />
+          </div>
+
+          <div className="relative max-w-4xl mx-auto text-center">
+            {/* Top badge */}
+            <div
+              className="inline-flex items-center gap-2 px-5 py-2 rounded-full text-sm mb-8 font-medium"
+              style={{
+                background: 'rgba(245,158,11,0.1)',
+                border: '1px solid rgba(245,158,11,0.25)',
+                color: '#fcd34d',
+              }}
+            >
+              <span className="w-2 h-2 rounded-full animate-pulse inline-block" style={{ background: '#f59e0b' }} />
               مدونة عربية متجددة يومياً
             </div>
-            <h1 className="text-4xl md:text-5xl font-black mb-4 leading-tight">
+
+            {/* Main heading */}
+            <h1 className="text-4xl md:text-6xl font-black mb-5 leading-tight" style={{ color: '#f1f5f9' }}>
               أهلاً بكم في
-              <span className="block text-amber-300">مدونتي</span>
+              <span
+                className="block mt-1"
+                style={{
+                  background: 'linear-gradient(135deg, #f59e0b, #fcd34d, #d97706)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text',
+                }}
+              >
+                مدونتي
+              </span>
             </h1>
-            <p className="text-teal-100 text-lg md:text-xl leading-relaxed max-w-2xl mx-auto mb-8">
+
+            {/* Subheading */}
+            <p className="text-lg md:text-xl leading-relaxed max-w-2xl mx-auto mb-10" style={{ color: '#64748b' }}>
               مساحة للأفكار والمعرفة والإلهام. نتشارك هنا أفضل ما في عقولنا وتجاربنا
               لنبني معاً مجتمعاً معرفياً راقياً.
             </p>
 
             {/* Stats */}
-            <div className="flex items-center justify-center gap-8 text-sm">
-              <div className="text-center">
-                <div className="text-3xl font-black text-amber-300">{stats.total}</div>
-                <div className="text-teal-200">مقالة</div>
-              </div>
-              <div className="w-px h-12 bg-white/20"></div>
-              <div className="text-center">
-                <div className="text-3xl font-black text-amber-300">{stats.categories}</div>
-                <div className="text-teal-200">تصنيف</div>
-              </div>
-              <div className="w-px h-12 bg-white/20"></div>
-              <div className="text-center">
-                <div className="text-3xl font-black text-amber-300">{stats.featured}</div>
-                <div className="text-teal-200">مقالة مميزة</div>
-              </div>
+            <div
+              className="inline-flex items-center gap-0 rounded-2xl overflow-hidden"
+              style={{ border: '1px solid rgba(30,58,95,0.7)', background: 'rgba(30,41,59,0.6)', backdropFilter: 'blur(10px)' }}
+            >
+              {[
+                { value: stats.total, label: "مقالة" },
+                { value: stats.categories, label: "تصنيف" },
+                { value: stats.featured, label: "مميزة" },
+              ].map((stat, i) => (
+                <div
+                  key={stat.label}
+                  className="px-8 py-5 text-center"
+                  style={{
+                    borderRight: i < 2 ? '1px solid rgba(30,58,95,0.7)' : 'none',
+                  }}
+                >
+                  <div
+                    className="text-3xl font-black mb-0.5"
+                    style={{
+                      background: 'linear-gradient(135deg, #f59e0b, #fcd34d)',
+                      WebkitBackgroundClip: 'text',
+                      WebkitTextFillColor: 'transparent',
+                      backgroundClip: 'text',
+                    }}
+                  >
+                    {stat.value}
+                  </div>
+                  <div className="text-xs font-medium" style={{ color: '#64748b' }}>{stat.label}</div>
+                </div>
+              ))}
             </div>
           </div>
         </section>

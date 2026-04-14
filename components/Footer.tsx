@@ -2,59 +2,82 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer className="bg-slate-900 text-slate-300 mt-auto">
+    <footer style={{ background: '#0d1a2d', borderTop: '1px solid rgba(30,58,95,0.6)' }}>
       <div className="max-w-6xl mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-10">
           {/* Brand */}
           <div>
-            <div className="flex items-center gap-2 mb-4">
-              <div className="w-9 h-9 bg-teal-500 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-lg">م</span>
+            <div className="flex items-center gap-3 mb-4">
+              <div
+                className="w-10 h-10 rounded-xl flex items-center justify-center"
+                style={{ background: 'linear-gradient(135deg, #f59e0b, #d97706)', boxShadow: '0 4px 15px rgba(245,158,11,0.25)' }}
+              >
+                <span className="text-slate-900 font-black text-xl">م</span>
               </div>
-              <span className="text-xl font-bold text-white">مدونتي</span>
+              <div>
+                <span
+                  className="text-lg font-black"
+                  style={{ background: 'linear-gradient(135deg, #f59e0b, #fcd34d)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}
+                >
+                  مدونتي
+                </span>
+              </div>
             </div>
-            <p className="text-sm leading-relaxed text-slate-400">
+            <p className="text-sm leading-relaxed" style={{ color: '#64748b' }}>
               مساحة للأفكار والإبداع والمعرفة. نتشارك هنا أفضل ما في عقولنا وتجاربنا.
             </p>
+            {/* Decorative line */}
+            <div className="mt-4 h-0.5 w-16 rounded-full" style={{ background: 'linear-gradient(90deg, #f59e0b, transparent)' }} />
           </div>
 
-          {/* Links */}
+          {/* Categories */}
           <div>
-            <h3 className="font-bold text-white mb-4">التصنيفات</h3>
+            <h3 className="font-bold mb-4 text-sm uppercase tracking-wider" style={{ color: '#f59e0b' }}>التصنيفات</h3>
             <ul className="space-y-2 text-sm">
               {["تقنية", "تطوير ذاتي", "ثقافة", "صحة", "أعمال"].map((cat) => (
                 <li key={cat}>
                   <Link
                     href={`/?category=${cat}`}
-                    className="text-slate-400 hover:text-teal-400 transition-colors"
+                    className="flex items-center gap-2 transition-colors duration-200 hover:translate-x-1 group"
+                    style={{ color: '#64748b' }}
                   >
-                    {cat}
+                    <span className="w-1.5 h-1.5 rounded-full flex-shrink-0 transition-colors duration-200 group-hover:bg-amber-400" style={{ background: '#1e3a5f' }} />
+                    <span className="group-hover:text-amber-400 transition-colors duration-200">{cat}</span>
                   </Link>
                 </li>
               ))}
             </ul>
           </div>
 
-          {/* Info */}
+          {/* Quick links */}
           <div>
-            <h3 className="font-bold text-white mb-4">روابط سريعة</h3>
+            <h3 className="font-bold mb-4 text-sm uppercase tracking-wider" style={{ color: '#f59e0b' }}>روابط سريعة</h3>
             <ul className="space-y-2 text-sm">
-              <li>
-                <Link href="/" className="text-slate-400 hover:text-teal-400 transition-colors">
-                  الرئيسية
-                </Link>
-              </li>
-              <li>
-                <Link href="/admin" className="text-slate-400 hover:text-teal-400 transition-colors">
-                  لوحة التحكم
-                </Link>
-              </li>
+              {[
+                { href: "/", label: "الرئيسية" },
+                { href: "/admin", label: "لوحة التحكم" },
+              ].map((item) => (
+                <li key={item.href}>
+                  <Link
+                    href={item.href}
+                    className="flex items-center gap-2 transition-colors duration-200 group"
+                    style={{ color: '#64748b' }}
+                  >
+                    <span className="w-1.5 h-1.5 rounded-full flex-shrink-0 transition-colors duration-200 group-hover:bg-amber-400" style={{ background: '#1e3a5f' }} />
+                    <span className="group-hover:text-amber-400 transition-colors duration-200">{item.label}</span>
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
         </div>
 
-        <div className="border-t border-slate-800 mt-8 pt-8 text-center text-sm text-slate-500">
-          <p>© {new Date().getFullYear()} مدونتي - جميع الحقوق محفوظة</p>
+        {/* Bottom bar */}
+        <div
+          className="pt-8 text-center text-sm"
+          style={{ borderTop: '1px solid rgba(30,58,95,0.5)', color: '#334155' }}
+        >
+          <p>© {new Date().getFullYear()} <span style={{ color: '#f59e0b' }}>مدونتي</span> — جميع الحقوق محفوظة</p>
         </div>
       </div>
     </footer>

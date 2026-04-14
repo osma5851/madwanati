@@ -7,46 +7,40 @@ export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <nav className="bg-white shadow-sm border-b border-teal-100 sticky top-0 z-50">
+    <nav className="sticky top-0 z-50 border-b border-slate-700/60 backdrop-blur-md" style={{ background: 'rgba(15, 23, 42, 0.95)' }}>
       <div className="max-w-6xl mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2 group">
-            <div className="w-9 h-9 bg-teal-600 rounded-lg flex items-center justify-center shadow-sm group-hover:bg-teal-700 transition-colors">
-              <span className="text-white font-bold text-lg">م</span>
+          <Link href="/" className="flex items-center gap-3 group">
+            <div className="w-10 h-10 rounded-xl flex items-center justify-center shadow-lg transition-all duration-300 group-hover:scale-105" style={{ background: 'linear-gradient(135deg, #f59e0b, #d97706)', boxShadow: '0 4px 15px rgba(245,158,11,0.3)' }}>
+              <span className="text-slate-900 font-black text-xl">م</span>
             </div>
-            <span className="text-xl font-bold text-teal-700">مدونتي</span>
+            <div>
+              <span className="text-xl font-black" style={{ background: 'linear-gradient(135deg, #f59e0b, #fcd34d)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>مدونتي</span>
+              <div className="text-xs text-slate-500 leading-none -mt-0.5">أفكار وقصص</div>
+            </div>
           </Link>
 
           {/* Desktop Nav */}
           <div className="hidden md:flex items-center gap-1">
-            <Link
-              href="/"
-              className="px-4 py-2 text-gray-600 hover:text-teal-600 hover:bg-teal-50 rounded-lg transition-colors font-medium"
-            >
-              الرئيسية
-            </Link>
-            <Link
-              href="/?category=تقنية"
-              className="px-4 py-2 text-gray-600 hover:text-teal-600 hover:bg-teal-50 rounded-lg transition-colors font-medium"
-            >
-              تقنية
-            </Link>
-            <Link
-              href="/?category=تطوير ذاتي"
-              className="px-4 py-2 text-gray-600 hover:text-teal-600 hover:bg-teal-50 rounded-lg transition-colors font-medium"
-            >
-              تطوير ذاتي
-            </Link>
-            <Link
-              href="/?category=ثقافة"
-              className="px-4 py-2 text-gray-600 hover:text-teal-600 hover:bg-teal-50 rounded-lg transition-colors font-medium"
-            >
-              ثقافة
-            </Link>
+            {[
+              { href: "/", label: "الرئيسية" },
+              { href: "/?category=تقنية", label: "تقنية" },
+              { href: "/?category=تطوير ذاتي", label: "تطوير ذاتي" },
+              { href: "/?category=ثقافة", label: "ثقافة" },
+            ].map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="px-4 py-2 text-slate-400 hover:text-amber-400 rounded-lg transition-all duration-200 font-medium text-sm hover:bg-slate-800/60"
+              >
+                {item.label}
+              </Link>
+            ))}
             <Link
               href="/admin"
-              className="mr-2 px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors font-medium text-sm"
+              className="mr-2 px-4 py-2 rounded-lg font-medium text-sm transition-all duration-200 hover:scale-105 active:scale-95"
+              style={{ background: 'linear-gradient(135deg, #f59e0b, #d97706)', color: '#0f172a', boxShadow: '0 2px 10px rgba(245,158,11,0.25)' }}
             >
               لوحة التحكم
             </Link>
@@ -54,8 +48,9 @@ export default function Navbar() {
 
           {/* Mobile menu button */}
           <button
-            className="md:hidden p-2 rounded-lg text-gray-600 hover:bg-gray-100"
+            className="md:hidden p-2 rounded-lg text-slate-400 hover:text-amber-400 hover:bg-slate-800 transition-colors"
             onClick={() => setMobileOpen(!mobileOpen)}
+            aria-label="toggle menu"
           >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               {mobileOpen ? (
@@ -69,20 +64,26 @@ export default function Navbar() {
 
         {/* Mobile Nav */}
         {mobileOpen && (
-          <div className="md:hidden pb-4 border-t border-gray-100 mt-1 pt-3 space-y-1">
-            <Link href="/" className="block px-4 py-2 text-gray-600 hover:text-teal-600 hover:bg-teal-50 rounded-lg font-medium">
-              الرئيسية
-            </Link>
-            <Link href="/?category=تقنية" className="block px-4 py-2 text-gray-600 hover:text-teal-600 hover:bg-teal-50 rounded-lg font-medium">
-              تقنية
-            </Link>
-            <Link href="/?category=تطوير ذاتي" className="block px-4 py-2 text-gray-600 hover:text-teal-600 hover:bg-teal-50 rounded-lg font-medium">
-              تطوير ذاتي
-            </Link>
-            <Link href="/?category=ثقافة" className="block px-4 py-2 text-gray-600 hover:text-teal-600 hover:bg-teal-50 rounded-lg font-medium">
-              ثقافة
-            </Link>
-            <Link href="/admin" className="block px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 font-medium text-center">
+          <div className="md:hidden pb-4 border-t border-slate-700/60 mt-1 pt-3 space-y-1">
+            {[
+              { href: "/", label: "الرئيسية" },
+              { href: "/?category=تقنية", label: "تقنية" },
+              { href: "/?category=تطوير ذاتي", label: "تطوير ذاتي" },
+              { href: "/?category=ثقافة", label: "ثقافة" },
+            ].map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="block px-4 py-2.5 text-slate-400 hover:text-amber-400 hover:bg-slate-800/60 rounded-lg font-medium transition-colors"
+              >
+                {item.label}
+              </Link>
+            ))}
+            <Link
+              href="/admin"
+              className="block px-4 py-2.5 rounded-lg font-medium text-center mt-2 transition-all"
+              style={{ background: 'linear-gradient(135deg, #f59e0b, #d97706)', color: '#0f172a' }}
+            >
               لوحة التحكم
             </Link>
           </div>
